@@ -1,0 +1,44 @@
+@baseUrl = http://localhost:3000
+
+### Cadastrar Novo Usuário 
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "nome": "Caio Contratante",
+  "email": "caio@empresa.com",
+  "perfil": "CONTRATANTE",
+  "senha": "senhaSegura123"
+}
+
+### Efetuar Login 
+# @name login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "caio@empresa.com",
+  "senha": "senhaSegura123"
+}
+
+### Extração dinâmica do Token
+@authToken = {{login.response.body.token}}
+
+### Publicar um Projeto
+POST {{baseUrl}}/api/projects
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "titulo": "Desenvolvimento de Dashboard em React",
+  "descricao": "Precisamos de um front-end para criar painéis interativos modernos.",
+  "orcamento_max": 4500.00
+}
+
+### Buscar Todos os Projetos Abertos 
+GET {{baseUrl}}/api/projects
+Authorization: Bearer {{authToken}}
+
+### Filtrar Projetos por Palavra-chave 
+GET {{baseUrl}}/api/projects?search=React
+Authorization: Bearer {{authToken}}
